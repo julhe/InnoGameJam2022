@@ -21,7 +21,7 @@ public class ScatterObjectDefinition : ScriptableObject
     [Min(0.0f)] public float Density = 1.0f;
 
     public float  RelaxRange = 1.0f;
-    public int RelaxIterations = 1;
+    [Range(0, 8)] public int RelaxIterations = 1;
     public void Execute(float2 areaMin, float2 areaMax, Transform parent, uint seed)
     {
         int totalCount = Mathf.RoundToInt(math.lengthsq(areaMax - areaMin) * Density);
