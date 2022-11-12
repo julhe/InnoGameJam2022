@@ -125,7 +125,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _cloudColor: {r: 1, g: 0.5632025, b: 0.36470592, a: 0}
+    - _cloudColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3485977626387261505
 MonoBehaviour:
