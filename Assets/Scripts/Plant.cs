@@ -55,10 +55,19 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
     }
 
     static readonly List<Vector3> spawnpointCache = new List<Vector3>();
+    bool isInteracting;
     public void OnInteractByUser()
     {
-        transform.DOPunchScale(Vector3.one * 0.5f, 0.3f, 4, 0.5f);
+        if (isInteracting)
+        {
+            return;
+        }
         
+        isInteracting = true;
+        var seq = DOTween.Sequence();
+        seq.Append(transform.DOPunchScale(Vector3.one * 0.5f, 0.3f, 4, 0.5f));
+        seq.AppendCallback(() => isInteracting = false);
+        seq.Play();
         // spawn the new plants!
         spawnpointCache.Clear();
         GenerateSpawnPointsCircle(spawnpointCache, transform.position, SpawnRadius, SeedCount);
