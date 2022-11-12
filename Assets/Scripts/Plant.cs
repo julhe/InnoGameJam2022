@@ -15,9 +15,32 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
     [SerializeField] float SpawnRadius = 1f;
     [SerializeField] int SeedCount = 8;
 
+
     void OnEnable()
     {
-        //GetComponent<Collider>().
+        var ownBounds = GetComponent<Collider>().bounds;
+        int hits = Physics.OverlapBoxNonAlloc(ownBounds.center, ownBounds.extents, Shared.otherColliderBuffer);
+        for (int i = 0; i < hits; i++)
+        {
+            Collider otherHit = Shared.otherColliderBuffer[i];
+            if (otherHit.gameObject == gameObject)
+            {
+                continue;
+            }
+            if (otherHit.gameObject.TryGetComponent(out IPlant plant))
+            {
+                //remove other plants, so they won't intersect!
+                plant.OnTryKillByOtherPlant();
+            }
+        }
+    }
+
+    void OnCollisionStay(Collision other)
+    {
+        if(other.gameObject.TryGetComponent(out IPlant plant))
+        {
+            plant.OnTryKillByOtherPlant();
+        }
     }
 
     static void GenerateSpawnPointsCircle(List<Vector3> spawnPoints, Vector3 origin, float radius, int count)
@@ -43,6 +66,8 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         {
             var go = Instantiate(ChildrenPrefab, destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
             go.transform.localScale = Vector3.zero;
+            
+            //TODO: make growing more cool by making it erratic -> quantize the scale?
             go.transform.DOScale(Vector3.one, Random.Range(0.1f, 0.5f));
             
         }
@@ -51,4 +76,13 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
     {
         Gizmos.DrawWireSphere(transform.position,SpawnRadius );
     }
+
+    public void OnTryKillByOtherPlant()
+    {
+        var sequence = DOTween.Sequence();
+        sequence.Append(transform.DOScale(Vector3.zero, 0.2f));
+        sequence.AppendCallback(() => { Destroy(gameObject); });
+        sequence.Play();
+    }
+    
 }
