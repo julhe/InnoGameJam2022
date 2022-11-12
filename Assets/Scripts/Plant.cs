@@ -10,11 +10,21 @@ using Random = UnityEngine.Random;
 
 public class Plant : MonoBehaviour, IInteractable, IPlant
 {
+    using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Plant : MonoBehaviour
+{
+    public PlantType PlantType;
+    
     [SerializeField] GameObject ChildrenPrefab;
 
     [SerializeField] float SpawnRadius = 1f;
     [SerializeField] int SeedCount = 8;
 
+    PlantType LikedPlant;
+    PlantType DislikedPlant;
 
     void OnEnable()
     {
@@ -40,6 +50,15 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         if(other.gameObject.TryGetComponent(out IPlant plant))
         {
             plant.OnTryKillByOtherPlant();
+        }
+    }
+
+    void CheckForGrowConditions(float neighbourhoodRadius)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, neighbourhoodRadius);
+        foreach (var hitCollider in hitColliders)
+        {
+            if(true){}
         }
     }
 
@@ -94,4 +113,13 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         sequence.Play();
     }
     
+    enum PlantType
+    {
+        tier1A,
+        tier1B,
+        tier2A,
+        tier2B,
+        tier3A,
+        tier3B
+    }
 }
