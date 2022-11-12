@@ -69,11 +69,11 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         {
             Plant plant = hitCollider.GetComponent<Plant>();
             if(plant != null){
-                if(plant.PlantType == LikedPlant)
+                if(plant.ThisPlantType == LikedPlant)
                 {
                     numLikedPlants ++;
                 }
-                else if(plant.PlantType == DislikedPlant)
+                else if(plant.ThisPlantType == DislikedPlant)
                 {
                     numDislikedPlants ++;
                 }
