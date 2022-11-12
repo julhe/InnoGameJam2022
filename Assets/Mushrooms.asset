@@ -18,6 +18,6 @@ MonoBehaviour:
   NoiseBias: -0.06
   ScaleMin: 0.56
   ScaleMax: 1.83
-  Density: 0.33
+  Density: 0.1
   RelaxRange: 1.15
   RelaxIterations: 1
