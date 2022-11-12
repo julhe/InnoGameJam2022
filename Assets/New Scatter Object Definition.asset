@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 015045dada565ae44b93059cfb367b8e, type: 3}
+  m_Name: New Scatter Object Definition
+  m_EditorClassIdentifier: 
+  Prefab: {fileID: 3085244099957468633, guid: b416993656a0de04bbea4edf211791f5, type: 3}
+  NoiseAmplitude: 1.04
+  NoiseFrequency: 0.039
+  NoiseBias: 0.09
+  ScaleMin: 0.45
+  ScaleMax: 2.21
+  Density: 0.1
+  RelaxRange: 2.69
+  RelaxIterations: 1
