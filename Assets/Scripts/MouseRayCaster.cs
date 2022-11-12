@@ -18,13 +18,23 @@ public class MouseRayCaster : MonoBehaviour
             for (int hitIdx = 0; hitIdx < hitCount; hitIdx++)
             {
                 RaycastHit hit = Shared.rayCastHitBuffer[hitIdx];
-                if (!hit.transform.gameObject.TryGetComponent(out IInteractable interactable))
+                if (hit.transform.gameObject.TryGetComponent(out IInteractable interactable))
                 {
-                    continue;
+                    interactable.OnInteractByUser();
+                    break;
                 }
-                
-                interactable.OnInteractByUser();
-                break;
+
+                var interactableParent = hit.transform.gameObject.GetComponentInParent<IInteractable>();
+                if (interactableParent != null)
+                {
+                    interactableParent.OnInteractByUser();
+                    break;
+                }
+
+
+
+
+
             }
         }
     }

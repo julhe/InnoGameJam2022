@@ -44,20 +44,31 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         SeedVisual.transform.DOScale(Vector3.one, 0.5f);
 
         // remove other trees that block the current tree
-        var ownBounds = GetComponent<Collider>().bounds;
+        var ownBounds = TreeVisual.GetComponent<Collider>().bounds;
         int hits = Physics.OverlapBoxNonAlloc(ownBounds.center, ownBounds.extents, Shared.otherColliderBuffer);
         for (int i = 0; i < hits; i++)
         {
             Collider otherHit = Shared.otherColliderBuffer[i];
-            if (otherHit.gameObject == gameObject)
+            if (otherHit.transform.parent && otherHit.transform.parent.gameObject == gameObject)
             {
                 continue;
             }
             if (otherHit.gameObject.TryGetComponent(out IPlant plant))
             {
+                
                 //remove other plants, so they won't intersect!
                 plant.OnTryKillByOtherPlant();
             }
+            else
+            {
+                plant = otherHit.GetComponentInParent<IPlant>();
+                if (plant != null)
+                {
+                    plant.OnTryKillByOtherPlant();
+                }
+            }
+            
+            
         }
     }
 
