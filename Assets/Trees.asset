@@ -17,7 +17,7 @@ MonoBehaviour:
   NoiseFrequency: 0.097
   NoiseBias: -0
   ScaleMin: 0.56
-  ScaleMax: 1.29
+  ScaleMax: 1.08
   Density: 0.1
-  RelaxRange: 3.15
-  RelaxIterations: 4
+  RelaxRange: 2.76
+  RelaxIterations: 3
