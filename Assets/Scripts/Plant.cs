@@ -26,6 +26,7 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
 
     [SerializeField] GameObject ChildrenPrefab;
 
+    [SerializeField] float NeighbourhoodRadius = 1f;
     [SerializeField] float SpawnRadius = 1f;
     [SerializeField] int SeedCount = 8;
 
@@ -59,12 +60,12 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         }
     }
 
-    bool CheckForGrowConditions(float neighbourhoodRadius)
+    bool CheckForGrowConditions()
     {
         int numLikedPlants = 0;
         int numDislikedPlants = 0;
 
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, neighbourhoodRadius);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, NeighbourhoodRadius);
         foreach (var hitCollider in hitColliders)
         {
             Plant plant = hitCollider.GetComponent<Plant>();
@@ -80,14 +81,7 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
             }
         }
 
-        if(numLikedPlants > numDislikedPlants && numLikedPlants > minAmountLikedPlants)
-        {
-            return(true);
-        }
-        else
-        {
-            return(false);
-        }
+        return(numLikedPlants > numDislikedPlants && numLikedPlants > minAmountLikedPlants);
     }
 
     static void GenerateSpawnPointsCircle(List<Vector3> spawnPoints, Vector3 origin, float radius, int count)
@@ -130,7 +124,8 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
     }
     void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireSphere(transform.position,SpawnRadius );
+        Gizmos.DrawWireSphere(transform.position,SpawnRadius);
+        Gizmos.DrawWireSphere(transform.position, NeighbourhoodRadius);
     }
 
     public void OnTryKillByOtherPlant()
