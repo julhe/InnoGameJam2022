@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -21,44 +22,51 @@ public class ScatterObjectDefinition : ScriptableObject
 
     public float  RelaxRange = 1.0f;
     public int RelaxIterations = 1;
-    public void Execute(float2 areaMin, float2 areaMax, Transform parent)
+    public void Execute(float2 areaMin, float2 areaMax, Transform parent, uint seed)
     {
         int totalCount = Mathf.RoundToInt(math.lengthsq(areaMax - areaMin) * Density);
-        var scatterJob = new NoiseScatterJob()
+        NativeArray<float3> positionAndScale = new NativeArray<float3>(totalCount, Allocator.TempJob);
+        NoiseScatterJob scatterJob = new()
         {
             areaMin = areaMin,
             areaMax = areaMax,
             NoiseAmp = NoiseAmplitude,
             NoiseFreq = NoiseFrequency,
             NoiseBias = NoiseBias,
-            Positions = new NativeArray<float3>(totalCount, Allocator.TempJob)
+            Positions = positionAndScale,
         };
         
         scatterJob.Schedule(totalCount, 16).Complete();
 
-        var relaxJob = new RelaxPointsJob()
+        for (int relaxIteration = 0; relaxIteration < RelaxIterations; relaxIteration++)
         {
-            Iterations = RelaxIterations,
-            Positions = scatterJob.Positions,
-            OffsetTemp = new NativeArray<float2>(scatterJob.Positions.Length, Allocator.TempJob),
-            RelaxRange = RelaxRange,
-        };
+            RelaxPointsJob relaxJob = new()
+            {
+                Positions = positionAndScale,
+                PositionsOut = new NativeArray<float3>(scatterJob.Positions.Length, Allocator.TempJob),
+                RelaxRange = RelaxRange,
+            };
         
-        relaxJob.Schedule().Complete();
+            relaxJob.Schedule(scatterJob.Positions.Length, 16).Complete();
+
+            positionAndScale.CopyFrom(relaxJob.PositionsOut);
+            relaxJob.PositionsOut.Dispose();
+        }
 
         for (int i = 0; i < scatterJob.Positions.Length; i++)
         {
             var posAndNoise = scatterJob.Positions[i];
             // apply scale.
             posAndNoise.z = posAndNoise.z > 0.0f ? Mathf.Lerp(ScaleMin, ScaleMax, posAndNoise.z) : 0.0f;
-            scatterJob.Positions[i] = posAndNoise;
+            positionAndScale[i] = posAndNoise;
         }
-        relaxJob.OffsetTemp.Dispose();
+
         // place objects
         int debugInstantiateCount = 0;
-        for (int index = 0; index < scatterJob.Positions.Length; index++)
+        Random rnd = Random.CreateFromIndex(seed);
+        for (int index = 0; index < positionAndScale.Length; index++)
         {
-            float3 positionAndNoise = scatterJob.Positions[index];
+            float3 positionAndNoise = positionAndScale[index];
             bool shouldPlace = positionAndNoise.z > 0.0;
 
             GameObject go;
@@ -81,6 +89,7 @@ public class ScatterObjectDefinition : ScriptableObject
             go.SetActive(true);
             go.transform.position = new Vector3(positionAndNoise.x, 0.0f, positionAndNoise.y);
             go.transform.localScale = positionAndNoise.z * Vector3.one;
+            go.transform.rotation = Quaternion.Euler(0f, rnd.NextFloat(-180f, 190f), 0f);
             
             go.hideFlags = HideFlags.DontSave;
         }
@@ -90,10 +99,11 @@ public class ScatterObjectDefinition : ScriptableObject
             Debug.Log($"Instantiated {debugInstantiateCount} new instances.");
         }
 
-        scatterJob.Positions.Dispose();
+        positionAndScale.Dispose();
     }
 }
 
+[BurstCompile]
 
 public struct NoiseScatterJob : IJobParallelFor
 {
@@ -113,57 +123,45 @@ public struct NoiseScatterJob : IJobParallelFor
     }
 }
 
+[BurstCompile]
 
-public struct RelaxPointsJob : IJob
+public struct RelaxPointsJob : IJobParallelFor
 {
-    public NativeArray<float3> Positions;
-    public NativeArray<float2> OffsetTemp;
-    [ReadOnly] public int Iterations;
+    [ReadOnly] public NativeArray<float3> Positions;
+    [WriteOnly] public NativeArray<float3> PositionsOut;
     [ReadOnly] public float RelaxRange;
-    public void Execute()
+    public void Execute(int selfIdx)
     {
-        for (int iter = 0; iter < Iterations; iter++)
+        float3 currentPos = Positions[selfIdx];
+        if (currentPos.z <= 0.0)
         {
-            for (int selfIdx = 0; selfIdx < Positions.Length; selfIdx++)
-            {
-                
-                float3 currentPos = Positions[selfIdx];
-                if (currentPos.z <= 0.0)
-                {
-                    continue;
-                }
-                float2 offset = float2.zero;
-                for (int otherIdx = 0; otherIdx < Positions.Length; otherIdx++)
-                {
-                    if (selfIdx == otherIdx)
-                    {
-                        continue;
-                    }
-
-                    float3 otherPos = Positions[otherIdx];
-                    if (otherPos.z <= 0.0)
-                    {
-                        continue;
-                    }
-                    float2 vecToOtherPos = otherPos.xy - currentPos.xy;
-                    float distance = math.length(vecToOtherPos);
-
-                    distance = math.max(distance, 0.0f);
-
-                    float weight = (RelaxRange ) - distance ;
-                    weight = math.max(weight, 0.0f); 
-                    offset.xy += math.normalize(vecToOtherPos) * weight;
-                }
-
-                OffsetTemp[selfIdx] = offset.xy;
-            }
-
-            for (int i = 0; i < Positions.Length; i++)
-            {
-                var pos = Positions[i];
-                pos.xy += OffsetTemp[i].xy;
-                Positions[i] = pos;
-            }
+            return;
         }
+        
+        float2 offset = float2.zero;
+        for (int otherIdx = 0; otherIdx < Positions.Length; otherIdx++)
+        {
+            if (selfIdx == otherIdx)
+            {
+                continue;
+            }
+
+            float3 otherPos = Positions[otherIdx];
+            if (otherPos.z <= 0.0)
+            {
+                continue;
+            }
+            float2 vecToOtherPos = otherPos.xy - currentPos.xy;
+            float distance = math.length(vecToOtherPos);
+
+            distance = math.max(distance, 0.0f);
+
+            float weight = (RelaxRange ) - distance ;
+            weight = math.max(weight, 0.0f); 
+            offset.xy += math.normalize(vecToOtherPos) * (weight * currentPos.z);
+        }
+        
+        currentPos.xy -= offset * 0.5f;
+        PositionsOut[selfIdx] = currentPos;
     }
 }
