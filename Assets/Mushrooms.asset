@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 015045dada565ae44b93059cfb367b8e, type: 3}
-  m_Name: New Scatter Object Definition
+  m_Name: Mushrooms
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 3085244099957468633, guid: b416993656a0de04bbea4edf211791f5, type: 3}
-  NoiseAmplitude: 1.04
-  NoiseFrequency: 0.039
-  NoiseBias: 0.09
-  ScaleMin: 0.45
-  ScaleMax: 2.21
+  Prefab: {fileID: 2523981290579785695, guid: 355737a67fc0ae643abc410642ad829e, type: 3}
+  NoiseAmplitude: 1.01
+  NoiseFrequency: 0.086
+  NoiseBias: -0.06
+  ScaleMin: 0.56
+  ScaleMax: 1.83
   Density: 0.1
-  RelaxRange: 2.69
+  RelaxRange: 1.15
   RelaxIterations: 1
