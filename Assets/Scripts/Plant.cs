@@ -9,15 +9,21 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Plant : MonoBehaviour, IInteractable, IPlant
-{
-    using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+{    
+    public enum PlantType
+    {
+        tier1A,
+        tier1B,
+        tier2A,
+        tier2B,
+        tier3A,
+        tier3B
+    }
 
-public class Plant : MonoBehaviour
-{
-    public PlantType PlantType;
+    public PlantType ThisPlantType;
     
+    [SerializeField] int minAmountLikedPlants = 5;
+
     [SerializeField] GameObject ChildrenPrefab;
 
     [SerializeField] float SpawnRadius = 1f;
@@ -53,12 +59,34 @@ public class Plant : MonoBehaviour
         }
     }
 
-    void CheckForGrowConditions(float neighbourhoodRadius)
+    bool CheckForGrowConditions(float neighbourhoodRadius)
     {
+        int numLikedPlants = 0;
+        int numDislikedPlants = 0;
+
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, neighbourhoodRadius);
         foreach (var hitCollider in hitColliders)
         {
-            if(true){}
+            Plant plant = hitCollider.GetComponent<Plant>();
+            if(plant != null){
+                if(plant.PlantType == LikedPlant)
+                {
+                    numLikedPlants ++;
+                }
+                else if(plant.PlantType == DislikedPlant)
+                {
+                    numDislikedPlants ++;
+                }
+            }
+        }
+
+        if(numLikedPlants > numDislikedPlants && numLikedPlants > minAmountLikedPlants)
+        {
+            return(true);
+        }
+        else
+        {
+            return(false);
         }
     }
 
@@ -111,15 +139,5 @@ public class Plant : MonoBehaviour
         sequence.Append(transform.DOScale(Vector3.zero, 0.2f));
         sequence.AppendCallback(() => { Destroy(gameObject); });
         sequence.Play();
-    }
-    
-    enum PlantType
-    {
-        tier1A,
-        tier1B,
-        tier2A,
-        tier2B,
-        tier3A,
-        tier3B
     }
 }
