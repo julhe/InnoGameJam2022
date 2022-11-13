@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 285115417071626284}
   - component: {fileID: 6914949627473603256}
   m_Layer: 0
-  m_Name: Tier1PlantA
+  m_Name: BasePlant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -231,15 +231,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6656430a5efeaf243bc883ebda2adbd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ThisPlantType: 0
   minAmountLikedPlants: 0
   ChildrenPrefab: {fileID: 2548572129523812719}
-  PlantSpawnManager: {fileID: 5484689357980704829, guid: 09f51297db0b4cd489975afdaca974d4,
-    type: 3}
   NeighbourhoodRadius: 1
   SpawnPointParrent: {fileID: 1242950953449344314}
   TreeVisual: {fileID: 5886199255259608866}
   SeedVisual: {fileID: 182260547488892239}
+  LikedPlant: {fileID: 0}
+  DislikedPlant: {fileID: 0}
 --- !u!1 &2604987872176273490
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,7 +422,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5886199255259608866}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.566, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -437,7 +436,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5886199255259608866}
-  m_Mesh: {fileID: 4993885097614998331, guid: 7cd6ecee728163b4a85570bb80db6d2d, type: 3}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &6288189754535622643
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -458,7 +457,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 98f6d8dc83a48fd49a50a1a0feb740b7, type: 2}
+  - {fileID: 2100000, guid: 17b20adc852055c4eaf60e4de7f59722, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -490,10 +489,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.78
-  m_Height: 3.5331466
+  m_Radius: 0.5
+  m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 1.7534267, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &2094341797899610686
 Rigidbody:
   m_ObjectHideFlags: 0

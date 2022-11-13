@@ -9,7 +9,13 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Plant : MonoBehaviour, IInteractable, IPlant
-{    
+{
+
+    public enum PlantState
+    {
+        Seed,
+        Tree,
+    }
     // public enum PlantType
     // {
     //     tier1A,
@@ -25,22 +31,21 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
     [SerializeField] int minAmountLikedPlants = 5;
 
     [SerializeField] GameObject ChildrenPrefab; //Delete this line when it becomes obsolete
-    [SerializeField] PlantSpawnManager PlantSpawnManager;
-    
 
     [SerializeField] float NeighbourhoodRadius = 1f;
 
     [SerializeField] Transform SpawnPointParrent;
     [SerializeField] GameObject TreeVisual, SeedVisual;
     
-    GameObject LikedPlant;
-    GameObject DislikedPlant;
+    [SerializeField] GameObject LikedPlant;
+    [SerializeField] GameObject DislikedPlant;
 
 
-    bool isInSeedState = true;
+    PlantState currentPlantState = PlantState.Seed;
     
     void OnEnable()
     {
+        
         TreeVisual.transform.localScale = Vector3.zero;
         SeedVisual.transform.localScale = Vector3.zero;
         SeedVisual.transform.DOScale(Vector3.one, 0.5f);
@@ -114,7 +119,7 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
     }
 
     static readonly List<Vector3> spawnpointCache = new List<Vector3>();
-    bool isInteracting;
+    bool isInteracting; // prevents interaction while f.e. an animation from a previous interaction is running.
     public void OnInteractByUser()
     {
         if (isInteracting || !CheckForGrowConditions())
@@ -123,40 +128,35 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         }
         
         isInteracting = true;
-        var seq = DOTween.Sequence();
-        if (isInSeedState)
+        Sequence seq = DOTween.Sequence();
+        switch (currentPlantState)
         {
-            isInSeedState = false;
-            seq.Append(SeedVisual.transform.DOScale(Vector3.zero, 0.1f));
-            seq.Append(TreeVisual.transform.DOScale(Vector3.one, 0.1f));
-        }
-        else
-        // seq.Append(transform.DOPunchScale(Vector3.one * 0.5f, 0.3f, 4, 0.5f));
-        // seq.AppendCallback(() => isInteracting = false);
-        // seq.Play();
-        // // spawn the new plants!
-        // spawnpointCache.Clear();
-        
-        // GenerateSpawnPointsCircle(spawnpointCache, transform.position, SpawnRadius, SeedCount);
-        // foreach (var destination in spawnpointCache)
-        {
+            case PlantState.Seed:
+                seq.Append(SeedVisual.transform.DOScale(Vector3.zero, 0.1f));
+                seq.Append(TreeVisual.transform.DOScale(Vector3.one, 0.1f));
+                
+                currentPlantState = PlantState.Tree;
+                break;
+            case PlantState.Tree:
+                seq.Append(transform.DOPunchScale(Vector3.one * 0.5f, 0.3f, 4, 0.5f));
+                // spawn the new plants!
+                spawnpointCache.Clear();
+                CollectChildPositions(spawnpointCache, SpawnPointParrent);
+                foreach (Vector3 destination in spawnpointCache)
+                {
+                    //PlantSpawnManager.GetPlantToSpawn(ChildrenPrefab)
+                    var go = Instantiate(PlantSpawnManager.Instance.GetPlantToSpawn(ChildrenPrefab), destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
+                    go.transform.localScale = Vector3.zero;
             
-            seq.Append(transform.DOPunchScale(Vector3.one * 0.5f, 0.3f, 4, 0.5f));
-
-        
-            // spawn the new plants!
-            spawnpointCache.Clear();
-            CollectChildPositions(spawnpointCache, SpawnPointParrent);
-            foreach (var destination in spawnpointCache)
-            {
-                //PlantSpawnManager.GetPlantToSpawn(ChildrenPrefab)
-                var go = Instantiate(ChildrenPrefab, destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
-                go.transform.localScale = Vector3.zero;
+                    //TODO: make growing more cool by making it erratic -> quantize the scale?
+                    go.transform.DOScale(Vector3.one, Random.Range(0.1f, 0.5f));
             
-                //TODO: make growing more cool by making it erratic -> quantize the scale?
-                go.transform.DOScale(Vector3.one, Random.Range(0.1f, 0.5f));
-            
-            }
+                }
+                
+                seq.Append(transform.DOPunchScale(Vector3.one * 0.5f, 0.3f, 4, 0.5f));
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
 
         seq.AppendCallback(() => isInteracting = false);
