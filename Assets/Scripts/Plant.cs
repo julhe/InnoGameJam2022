@@ -172,7 +172,15 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
                     GameObject plantToSpawn = PlantSpawnManager.Instance.GetPlantToSpawn(SelfPlantType);
                     if (plantToSpawn.GetComponent<Plant>().CanGrowAtSpot(destination))
                     {
-                        var go = Instantiate(plantToSpawn, destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
+                        GameObject go;
+                        if(Random.Range(0,100) > 30)
+                        {
+                            go = Instantiate(ChildrenPrefab, destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
+                        }
+                        else
+                        {
+                            go = Instantiate(plantToSpawn, destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
+                        }
                         go.transform.localScale = Vector3.zero;
             
                         //TODO: make growing more cool by making it erratic -> quantize the scale?

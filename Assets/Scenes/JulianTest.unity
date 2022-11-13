@@ -820,6 +820,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbe7841fcf0054c4ba84157ac51ae27e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LeftClickEffect: {fileID: 0}
+  RightClickEffect: {fileID: 0}
 --- !u!1001 &5484689357065052927
 PrefabInstance:
   m_ObjectHideFlags: 0
