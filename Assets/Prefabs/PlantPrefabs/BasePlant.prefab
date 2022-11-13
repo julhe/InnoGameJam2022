@@ -239,8 +239,8 @@ MonoBehaviour:
   SpawnPointParrent: {fileID: 1242950953449344314}
   TreeVisual: {fileID: 5886199255259608866}
   SeedVisual: {fileID: 182260547488892239}
-  LikedPlant: {fileID: 0}
-  DislikedPlant: {fileID: 0}
+  LikedPlant: 0
+  DislikedPlant: 0
   currentPlantState: 0
 --- !u!82 &1105560180608446712
 AudioSource:
@@ -254,7 +254,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 7fd4ef32a3e6c7242aa1ae2412d17f87, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.338
   m_Pitch: 1
   Loop: 0
   Mute: 0
