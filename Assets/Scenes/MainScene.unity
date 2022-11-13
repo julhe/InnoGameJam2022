@@ -8581,6 +8581,52 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 897ba2d56aa4acb44b43db23fa44670e, type: 3}
+--- !u!1 &1073833598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1073833600}
+  - component: {fileID: 1073833599}
+  m_Layer: 0
+  m_Name: Groudnplane
+  m_TagString: GroundPlane
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!64 &1073833599
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073833598}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1073833600
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073833598}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
+  m_LocalScale: {x: 20.622, y: 20.622, z: 20.622}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1085896482
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15840,6 +15886,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbe7841fcf0054c4ba84157ac51ae27e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LeftClickEffect: {fileID: 3878316352616387343, guid: 887a70abd4190a54d9e2f32517d69e9e,
+    type: 3}
+  RightClickEffect: {fileID: 3878316352616387343, guid: 751e5903bb178c844be3380f07fe4b02,
+    type: 3}
 --- !u!1001 &2078964930
 PrefabInstance:
   m_ObjectHideFlags: 0
