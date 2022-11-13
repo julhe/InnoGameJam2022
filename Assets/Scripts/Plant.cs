@@ -115,15 +115,23 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         int numDislikedPlants = 0;
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, NeighbourhoodRadius);
+        HashSet<Plant> visitedPlants = new HashSet<Plant>();
         foreach (var hitCollider in hitColliders)
         {
-            Plant plant = hitCollider.GetComponent<Plant>();
-            if (plant == null) continue;
-            if(plant.SelfPlantType == LikedPlant && plant.currentPlantState != PlantState.Seed)
+            Plant otherPlant = hitCollider.GetComponentInParent<Plant>();
+            if (otherPlant == null) continue;
+            if (visitedPlants.Contains(otherPlant))
+            {
+                continue;
+            }
+
+            visitedPlants.Add(otherPlant);
+            
+            if(otherPlant.SelfPlantType == LikedPlant && otherPlant.currentPlantState != PlantState.Seed)
             {
                 numLikedPlants ++;
             }
-            else if(plant.SelfPlantType == DislikedPlant && plant.currentPlantState != PlantState.Seed)
+            else if(otherPlant.SelfPlantType == DislikedPlant && otherPlant.currentPlantState != PlantState.Seed)
             {
                 numDislikedPlants ++;
             }

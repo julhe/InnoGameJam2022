@@ -299,6 +299,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SquarePollen
       objectReference: {fileID: 0}
+    - target: {fileID: 970207281783444152, guid: 39d61028fbca5c7459fc941bcdcaad40,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39d61028fbca5c7459fc941bcdcaad40, type: 3}
 --- !u!1 &4366177309794895103 stripped
@@ -402,6 +407,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SquareRegular
+      objectReference: {fileID: 0}
+    - target: {fileID: 1936936439383999547, guid: 9acd6d56bad7d8c4cbbbe97c0c2f37b4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9acd6d56bad7d8c4cbbbe97c0c2f37b4, type: 3}
