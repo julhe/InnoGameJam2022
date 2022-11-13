@@ -31,8 +31,8 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
     [SerializeField] Transform SpawnPointParrent;
     [SerializeField] GameObject TreeVisual, SeedVisual;
     
-    [SerializeField] GameObject LikedPlant;
-    [SerializeField] GameObject DislikedPlant;
+    [SerializeField] PlantType LikedPlant;
+    [SerializeField] PlantType DislikedPlant;
 
 
     public PlantState currentPlantState = PlantState.Seed;
@@ -119,11 +119,11 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         {
             Plant plant = hitCollider.GetComponent<Plant>();
             if (plant == null) continue;
-            if(plant.gameObject == LikedPlant)
+            if(plant.SelfPlantType == LikedPlant && plant.currentPlantState != PlantState.Seed)
             {
                 numLikedPlants ++;
             }
-            else if(plant.gameObject == DislikedPlant)
+            else if(plant.SelfPlantType == DislikedPlant && plant.currentPlantState != PlantState.Seed)
             {
                 numDislikedPlants ++;
             }
@@ -136,7 +136,9 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
     {
         for (int i = 0; i < parent.childCount; i++)
         {
-            childPositions.Add(parent.GetChild(i).position);
+            Vector3 position = parent.GetChild(i).position;
+            position.y = 0.0f; //force to spawn on ground
+            childPositions.Add(position);
         }
     }
 
