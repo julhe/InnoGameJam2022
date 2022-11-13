@@ -178,6 +178,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1242950953449344314, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.9811
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242950953449344314, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.9811
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242950953449344314, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.9811
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242950953449344314, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.22
       objectReference: {fileID: 0}
@@ -235,6 +250,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6914949627473603256, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
         type: 3}
+      propertyPath: LikedPlant
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914949627473603256, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
+        type: 3}
       propertyPath: SeedVisual
       value: 
       objectReference: {fileID: 7574987005124762213}
@@ -246,6 +266,16 @@ PrefabInstance:
     - target: {fileID: 6914949627473603256, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
         type: 3}
       propertyPath: SelfPlantType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914949627473603256, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
+        type: 3}
+      propertyPath: NeighbourhoodRadius
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914949627473603256, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
+        type: 3}
+      propertyPath: minAmountLikedPlants
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []

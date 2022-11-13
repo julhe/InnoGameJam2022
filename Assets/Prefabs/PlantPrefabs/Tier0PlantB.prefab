@@ -87,6 +87,21 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: 0.24
       objectReference: {fileID: 0}
+    - target: {fileID: 1242950953449344314, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.4154
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242950953449344314, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.4154
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242950953449344314, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.4154
+      objectReference: {fileID: 0}
     - target: {fileID: 1312879711883291568, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -178,6 +193,11 @@ PrefabInstance:
         type: 3}
       propertyPath: SelfPlantType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914949627473603256, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
+        type: 3}
+      propertyPath: NeighbourhoodRadius
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8241544559970854045, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
         type: 3}
