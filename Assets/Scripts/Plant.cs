@@ -18,17 +18,9 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         Seed,
         Tree,
     }
-    // public enum PlantType
-    // {
-    //     tier1A,
-    //     tier1B,
-    //     tier2A,
-    //     tier2B,
-    //     tier3A,
-    //     tier3B
-    // }
 
-    // public PlantType ThisPlantType;
+
+    public PlantType SelfPlantType;
     
     [SerializeField] int minAmountLikedPlants = 5;
 
@@ -43,7 +35,7 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
     [SerializeField] GameObject DislikedPlant;
 
 
-    PlantState currentPlantState = PlantState.Seed;
+    public PlantState currentPlantState = PlantState.Seed;
     
     void OnEnable()
     {
@@ -52,37 +44,66 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         SeedVisual.transform.localScale = Vector3.zero;
         SeedVisual.transform.DOScale(Vector3.one, 0.5f);
 
-        // remove other trees that block the current tree
-        var ownBounds = TreeVisual.GetComponent<Collider>().bounds;
-        int hits = Physics.OverlapBoxNonAlloc(ownBounds.center, ownBounds.extents, Shared.otherColliderBuffer);
+
+    }
+
+    bool CanGrowAtSpot(Vector3 position)
+    {
+        var treeCollider = TreeVisual.GetComponentInChildren<Collider>();
+        if (treeCollider)
+        {
+            bool hasOverlap = CheckOverlapWithPlants(treeCollider.bounds.center + position, treeCollider.bounds.extents);
+            if (hasOverlap)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            Debug.LogError($"{name} has missing TreeCollider");
+        }
+        
+        var seedCollider = SeedVisual.GetComponentInChildren<Collider>();
+        if (seedCollider)
+        {
+            bool hasOverlap = CheckOverlapWithPlants(seedCollider.bounds.center + position, seedCollider.bounds.extents);
+            if (hasOverlap)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            Debug.LogError($"{name} has missing seedCollider");
+        }
+
+        return true;
+    }
+
+    bool CheckOverlapWithPlants(Vector3 position, Vector3 extends)
+    {
+        int hits = Physics.OverlapBoxNonAlloc(position + position, extends, Shared.otherColliderBuffer);
+        
         for (int i = 0; i < hits; i++)
         {
             Collider otherHit = Shared.otherColliderBuffer[i];
             Plant otherPlantComponent = otherHit.GetComponentInParent<Plant>();
-            if (otherPlantComponent.gameObject == gameObject)
+            if (otherPlantComponent == null)
+            {
+                continue;
+            }
+            
+            if (otherPlantComponent != null && otherPlantComponent.gameObject == gameObject)
             {
                 // don't check on self
                 continue;
             }
-            
-            if (otherHit.gameObject.TryGetComponent(out IPlant plant))
-            {
-                
-                //remove other plants, so they won't intersect!
-                plant.OnTryKillByOtherPlant();
-            }
-            else
-            {
-                plant = otherHit.GetComponentInParent<IPlant>();
-                if (plant != null)
-                {
-                    plant.OnTryKillByOtherPlant();
-                }
-            }
-            
-            
+
+            return true;
         }
+        return false;
     }
+    
     bool CheckForGrowConditions()
     {
         int numLikedPlants = 0;
@@ -141,15 +162,20 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
                 foreach (Vector3 destination in spawnpointCache)
                 {
                     //PlantSpawnManager.GetPlantToSpawn(ChildrenPrefab)
-                    var go = Instantiate(PlantSpawnManager.Instance.GetPlantToSpawn(ChildrenPrefab), destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
-                    go.transform.localScale = Vector3.zero;
+                    GameObject plantToSpawn = PlantSpawnManager.Instance.GetPlantToSpawn(SelfPlantType);
+                    if (plantToSpawn.GetComponent<Plant>().CanGrowAtSpot(destination))
+                    {
+                        var go = Instantiate(plantToSpawn, destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
+                        go.transform.localScale = Vector3.zero;
             
-                    //TODO: make growing more cool by making it erratic -> quantize the scale?
-                    go.transform.DOScale(Vector3.one, Random.Range(0.1f, 0.5f));
+                        //TODO: make growing more cool by making it erratic -> quantize the scale?
+                        go.transform.DOScale(Vector3.one, Random.Range(0.1f, 0.5f));
+                    }
+
             
                 }
                 
-                seq.Append(transform.DOPunchScale(Vector3.one * 0.5f, 0.3f, 4, 0.5f));
+                seq.Append(TreeVisual.transform.DOPunchScale(Vector3.one * 0.5f, 0.3f, 4, 0.5f));
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -171,4 +197,13 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         sequence.AppendCallback(() => { Destroy(gameObject); });
         sequence.Play();
     }
+}
+public enum PlantType
+{
+    tier0A,
+    tier0B,
+    tier1A,
+    tier1B,
+    tier2A,
+    tier2B
 }
