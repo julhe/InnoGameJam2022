@@ -149,7 +149,7 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
             
                 }
                 
-                seq.Append(transform.DOPunchScale(Vector3.one * 0.5f, 0.3f, 4, 0.5f));
+                seq.Append(TreeVisual.transform.DOPunchScale(Vector3.one * 0.5f, 0.3f, 4, 0.5f));
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
