@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlantSpawnManager : MonoBehaviour
 {
+    public static PlantSpawnManager Instance;
     [SerializeField] int lowerTierChance = 33;
     [SerializeField] int sameTierChance = 33;
 
@@ -12,6 +15,11 @@ public class PlantSpawnManager : MonoBehaviour
     [SerializeField] List<GameObject> tier2Plants = new List<GameObject>();
 
     List<List<GameObject>> tierList = new List<List<GameObject>>();
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
