@@ -49,10 +49,12 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
 
     bool CanGrowAtSpot(Vector3 position)
     {
-        var treeCollider = TreeVisual.GetComponentInChildren<Collider>();
-        if (treeCollider)
+        var treeRenderer = TreeVisual.GetComponentInChildren<MeshRenderer>();
+        if (treeRenderer)
         {
-            bool hasOverlap = CheckOverlapWithPlants(treeCollider.bounds.center + position, treeCollider.bounds.extents);
+            Bounds bound = treeRenderer.bounds;
+            Debug.Assert(bound.extents.sqrMagnitude > 0.0);
+            bool hasOverlap = CheckOverlapWithPlants(bound.center + position, bound.extents);
             if (hasOverlap)
             {
                 return false;
@@ -63,10 +65,12 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
             Debug.LogError($"{name} has missing TreeCollider");
         }
         
-        var seedCollider = SeedVisual.GetComponentInChildren<Collider>();
-        if (seedCollider)
+        var seedRenderer = SeedVisual.GetComponentInChildren<MeshRenderer>();
+        if (seedRenderer)
         {
-            bool hasOverlap = CheckOverlapWithPlants(seedCollider.bounds.center + position, seedCollider.bounds.extents);
+            Bounds bound = seedRenderer.bounds;
+            Debug.Assert(bound.extents.sqrMagnitude > 0.0);
+            bool hasOverlap = CheckOverlapWithPlants(bound.center + position, bound.extents);
             if (hasOverlap)
             {
                 return false;
@@ -82,7 +86,7 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
 
     bool CheckOverlapWithPlants(Vector3 position, Vector3 extends)
     {
-        int hits = Physics.OverlapBoxNonAlloc(position + position, extends, Shared.otherColliderBuffer);
+        int hits = Physics.OverlapBoxNonAlloc(position, extends, Shared.otherColliderBuffer);
         
         for (int i = 0; i < hits; i++)
         {
@@ -137,7 +141,7 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
 
     static readonly List<Vector3> spawnpointCache = new List<Vector3>();
     bool isInteracting; // prevents interaction while f.e. an animation from a previous interaction is running.
-    public void OnInteractByUser()
+    public void OnInteractByUserLeft()
     {
         if (isInteracting || !CheckForGrowConditions())
         {
@@ -185,6 +189,12 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         seq.Play();
 
     }
+
+    public void OnInteractByUserRight()
+    {
+        OnTryKillByOtherPlant();
+    }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(transform.position, NeighbourhoodRadius);
