@@ -231,8 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6656430a5efeaf243bc883ebda2adbd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ThisPlantType: 0
-  minAmountLikedPlants: 0
+  minAmountLikedPlants: 5
   ChildrenPrefab: {fileID: 2548572129523812719}
   PlantSpawnManager: {fileID: 5484689357980704829, guid: 09f51297db0b4cd489975afdaca974d4,
     type: 3}
@@ -240,6 +239,10 @@ MonoBehaviour:
   SpawnPointParrent: {fileID: 1242950953449344314}
   TreeVisual: {fileID: 5886199255259608866}
   SeedVisual: {fileID: 182260547488892239}
+  LikedPlant: {fileID: 2548572129523812719, guid: 4258ee26070ac73409a5ee7e52d55f2d,
+    type: 3}
+  DislikedPlant: {fileID: 5725899180508129117, guid: 09824c0552cd1a844bda193143b9dc62,
+    type: 3}
 --- !u!1 &2604987872176273490
 GameObject:
   m_ObjectHideFlags: 0

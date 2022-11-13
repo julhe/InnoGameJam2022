@@ -37,8 +37,8 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
     [SerializeField] Transform SpawnPointParrent;
     [SerializeField] GameObject TreeVisual, SeedVisual;
     
-    GameObject LikedPlant;
-    GameObject DislikedPlant;
+    [SerializeField] GameObject LikedPlant;
+    [SerializeField] GameObject DislikedPlant;
 
 
     PlantState currentPlantState = PlantState.Seed;
@@ -145,13 +145,15 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
                 foreach (Vector3 destination in spawnpointCache)
                 {
                     //PlantSpawnManager.GetPlantToSpawn(ChildrenPrefab)
-                    var go = Instantiate(ChildrenPrefab, destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
+                    var go = Instantiate(PlantSpawnManager.Instance.GetPlantToSpawn(ChildrenPrefab), destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
                     go.transform.localScale = Vector3.zero;
             
                     //TODO: make growing more cool by making it erratic -> quantize the scale?
                     go.transform.DOScale(Vector3.one, Random.Range(0.1f, 0.5f));
             
                 }
+                
+                seq.Append(transform.DOPunchScale(Vector3.one * 0.5f, 0.3f, 4, 0.5f));
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
