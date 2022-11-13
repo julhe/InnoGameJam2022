@@ -136,7 +136,9 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
     {
         for (int i = 0; i < parent.childCount; i++)
         {
-            childPositions.Add(parent.GetChild(i).position);
+            Vector3 position = parent.GetChild(i).position;
+            position.y = 0.0f; //force to spawn on ground
+            childPositions.Add(position);
         }
     }
 
