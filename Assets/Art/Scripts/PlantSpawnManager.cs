@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -51,7 +52,21 @@ public class PlantSpawnManager : MonoBehaviour
 
     int GetPlantTier(GameObject plant)
     {
-        //implementieren: Gameobject einer Pflanze übergeben, die Listen in dieser Klasse durchsuchen und herausfinden in welcher Tier die übergebene Üflanze ist
-        return 0;
+        foreach (var tier0Plant in tier0Plants)
+        {
+            if (plant == tier0Plant)
+                return 0;
+        }
+        foreach (var tier1Plant in tier1Plants)
+        {
+            if (plant == tier1Plant)
+                return 1;
+        }
+        foreach (var tier2Plant in tier2Plants)
+        {
+            if (plant == tier2Plant)
+                return 2;
+        }
+        throw new ArgumentException("Plant missing in the PlantSpawnManagers plants-list");
     }
 }

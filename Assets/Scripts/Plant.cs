@@ -9,25 +9,12 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Plant : MonoBehaviour, IInteractable, IPlant
-{    
-    // public enum PlantType
-    // {
-    //     tier1A,
-    //     tier1B,
-    //     tier2A,
-    //     tier2B,
-    //     tier3A,
-    //     tier3B
-    // }
-
-    // public PlantType ThisPlantType;
-    
+{
     [SerializeField] int minAmountLikedPlants = 5;
 
     [SerializeField] GameObject ChildrenPrefab; //Delete this line when it becomes obsolete
     [SerializeField] PlantSpawnManager PlantSpawnManager;
     
-
     [SerializeField] float NeighbourhoodRadius = 1f;
 
     [SerializeField] Transform SpawnPointParrent;
