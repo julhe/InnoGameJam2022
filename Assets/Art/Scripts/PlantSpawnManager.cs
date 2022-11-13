@@ -7,12 +7,18 @@ using Random = UnityEngine.Random;
 
 public class PlantSpawnManager : MonoBehaviour
 {
+    public static PlantSpawnManager Instance;
     [SerializeField] int lowerTierChance = 33;
     [SerializeField] int sameTierChance = 33;
 
     [SerializeField] List<GameObject> tier0Plants = new List<GameObject>();
     [SerializeField] List<GameObject> tier1Plants = new List<GameObject>();
     [SerializeField] List<GameObject> tier2Plants = new List<GameObject>();
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     private GameObject GetPlant(int tierIndex, int plantIndex)
     {
