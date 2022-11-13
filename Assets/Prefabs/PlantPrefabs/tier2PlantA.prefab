@@ -333,6 +333,11 @@ PrefabInstance:
       propertyPath: TreeVisual
       value: 
       objectReference: {fileID: 906408499202246527}
+    - target: {fileID: 6914949627473603256, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
+        type: 3}
+      propertyPath: SelfPlantType
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0efb4a219b831cc4588bf9a7917cc4a2, type: 3}
 --- !u!4 &6736123374333995614 stripped

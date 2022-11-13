@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using Sequence = DG.Tweening.Sequence;
 
 public class Plant : MonoBehaviour, IInteractable, IPlant
 {
@@ -16,17 +18,9 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         Seed,
         Tree,
     }
-    // public enum PlantType
-    // {
-    //     tier1A,
-    //     tier1B,
-    //     tier2A,
-    //     tier2B,
-    //     tier3A,
-    //     tier3B
-    // }
 
-    // public PlantType ThisPlantType;
+
+    public PlantType SelfPlantType;
     
     [SerializeField] int minAmountLikedPlants = 5;
 
@@ -56,10 +50,13 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         for (int i = 0; i < hits; i++)
         {
             Collider otherHit = Shared.otherColliderBuffer[i];
-            if (otherHit.transform.parent && otherHit.transform.parent.gameObject == gameObject)
+            Plant otherPlantComponent = otherHit.GetComponentInParent<Plant>();
+            if (otherPlantComponent.gameObject == gameObject)
             {
+                // don't check on self
                 continue;
             }
+            
             if (otherHit.gameObject.TryGetComponent(out IPlant plant))
             {
                 
@@ -78,15 +75,6 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
             
         }
     }
-
-    void OnCollisionStay(Collision other)
-    {
-        if(other.gameObject.TryGetComponent(out IPlant plant))
-        {
-            plant.OnTryKillByOtherPlant();
-        }
-    }
-
     bool CheckForGrowConditions()
     {
         int numLikedPlants = 0;
@@ -145,7 +133,7 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
                 foreach (Vector3 destination in spawnpointCache)
                 {
                     //PlantSpawnManager.GetPlantToSpawn(ChildrenPrefab)
-                    var go = Instantiate(PlantSpawnManager.Instance.GetPlantToSpawn(ChildrenPrefab), destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
+                    var go = Instantiate(PlantSpawnManager.Instance.GetPlantToSpawn(SelfPlantType), destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
                     go.transform.localScale = Vector3.zero;
             
                     //TODO: make growing more cool by making it erratic -> quantize the scale?
@@ -153,7 +141,7 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
             
                 }
                 
-                seq.Append(transform.DOPunchScale(Vector3.one * 0.5f, 0.3f, 4, 0.5f));
+                seq.Append(TreeVisual.transform.DOPunchScale(Vector3.one * 0.5f, 0.3f, 4, 0.5f));
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -175,4 +163,13 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         sequence.AppendCallback(() => { Destroy(gameObject); });
         sequence.Play();
     }
+}
+public enum PlantType
+{
+    tier0A,
+    tier0B,
+    tier1A,
+    tier1B,
+    tier2A,
+    tier2B
 }
