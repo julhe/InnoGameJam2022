@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using Sequence = DG.Tweening.Sequence;
 
 public class Plant : MonoBehaviour, IInteractable, IPlant
 {
@@ -56,10 +58,13 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         for (int i = 0; i < hits; i++)
         {
             Collider otherHit = Shared.otherColliderBuffer[i];
-            if (otherHit.transform.parent && otherHit.transform.parent.gameObject == gameObject)
+            Plant otherPlantComponent = otherHit.GetComponentInParent<Plant>();
+            if (otherPlantComponent.gameObject == gameObject)
             {
+                // don't check on self
                 continue;
             }
+            
             if (otherHit.gameObject.TryGetComponent(out IPlant plant))
             {
                 
@@ -78,15 +83,6 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
             
         }
     }
-
-    void OnCollisionStay(Collision other)
-    {
-        if(other.gameObject.TryGetComponent(out IPlant plant))
-        {
-            plant.OnTryKillByOtherPlant();
-        }
-    }
-
     bool CheckForGrowConditions()
     {
         int numLikedPlants = 0;
