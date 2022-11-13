@@ -10,17 +10,17 @@ using Random = UnityEngine.Random;
 
 public class Plant : MonoBehaviour, IInteractable, IPlant
 {    
-    public enum PlantType
-    {
-        tier1A,
-        tier1B,
-        tier2A,
-        tier2B,
-        tier3A,
-        tier3B
-    }
+    // public enum PlantType
+    // {
+    //     tier1A,
+    //     tier1B,
+    //     tier2A,
+    //     tier2B,
+    //     tier3A,
+    //     tier3B
+    // }
 
-    public PlantType ThisPlantType;
+    // public PlantType ThisPlantType;
     
     [SerializeField] int minAmountLikedPlants = 5;
 
@@ -33,8 +33,8 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
     [SerializeField] Transform SpawnPointParrent;
     [SerializeField] GameObject TreeVisual, SeedVisual;
     
-    PlantType LikedPlant;
-    PlantType DislikedPlant;
+    GameObject LikedPlant;
+    GameObject DislikedPlant;
 
 
     bool isInSeedState = true;
@@ -74,8 +74,6 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         }
     }
 
-    
-
     void OnCollisionStay(Collision other)
     {
         if(other.gameObject.TryGetComponent(out IPlant plant))
@@ -94,11 +92,11 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         {
             Plant plant = hitCollider.GetComponent<Plant>();
             if (plant == null) continue;
-            if(plant.ThisPlantType == LikedPlant)
+            if(plant.gameObject == LikedPlant)
             {
                 numLikedPlants ++;
             }
-            else if(plant.ThisPlantType == DislikedPlant)
+            else if(plant.gameObject == DislikedPlant)
             {
                 numDislikedPlants ++;
             }
@@ -151,7 +149,8 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
             CollectChildPositions(spawnpointCache, SpawnPointParrent);
             foreach (var destination in spawnpointCache)
             {
-                var go = Instantiate(PlantSpawnManager.GetPlantToSpawn(ChildrenPrefab), destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
+                //PlantSpawnManager.GetPlantToSpawn(ChildrenPrefab)
+                var go = Instantiate(ChildrenPrefab, destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
                 go.transform.localScale = Vector3.zero;
             
                 //TODO: make growing more cool by making it erratic -> quantize the scale?
