@@ -69,6 +69,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_5b3cf5afa18846508cbf5c380b9c75f5_Texture_1:
+        m_Texture: {fileID: 8400000, guid: 54a80890aecaafb45b8a2014325fb1af, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_8fed2c1a04914a5ebd8e7604d6c65198_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 86df15ff6e57b82438105db968793131, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_c9528ea26b8745d3b496a4ab6545a7a1_Texture_1:
         m_Texture: {fileID: 2800000, guid: 86df15ff6e57b82438105db968793131, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -140,7 +148,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _colorTip: {r: 0.87989867, g: 0.71444464, b: 0.8962264, a: 0}
+    - _colorTip: {r: 0.23584908, g: 0.1930099, b: 0.17911181, a: 0}
     - _grassColor: {r: 0.5707102, g: 0.8962264, b: 0.7018647, a: 0}
     - _smoothstep: {r: 0.12, g: 0.89, b: 0, a: 0}
   m_BuildTextureStacks: []

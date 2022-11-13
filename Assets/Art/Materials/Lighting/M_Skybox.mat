@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Skybox
-  m_Shader: {fileID: -6465566751694194690, guid: 25795de7278c91a43b6cad1ba74d111f,
+  m_Shader: {fileID: -6465566751694194690, guid: cb250893de3908148a21b49f484af807,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
