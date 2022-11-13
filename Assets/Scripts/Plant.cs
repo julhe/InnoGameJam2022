@@ -133,6 +133,7 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
             }
             else if(otherPlant.SelfPlantType == DislikedPlant && otherPlant.currentPlantState != PlantState.Seed)
             {
+                otherPlant.OnShowBadGrowCondition();
                 numDislikedPlants ++;
             }
         }
@@ -216,6 +217,21 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
     public void OnInteractByUserRight()
     {
         OnTryKillByOtherPlant();
+    }
+
+    bool isGrowConditionPlaying;
+    public void OnShowBadGrowCondition()
+    {
+        if (isGrowConditionPlaying)
+        {
+            return;
+        }
+
+        isGrowConditionPlaying = true;
+        var seq = DOTween.Sequence();
+        seq.Append(transform.DOShakePosition(0.25f, new Vector3(0.5f, 0.0f, 0.5f), 10, 90.0f, false, true, ShakeRandomnessMode.Harmonic));
+        seq.AppendCallback(() => isGrowConditionPlaying = false);
+        seq.Play();
     }
 
     void OnDrawGizmosSelected()
