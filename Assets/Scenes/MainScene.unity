@@ -13268,6 +13268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DistanceToEdge: 0.86
   Speed: 48
+  MaxRadius: 40
 --- !u!4 &1645529513
 Transform:
   m_ObjectHideFlags: 0
