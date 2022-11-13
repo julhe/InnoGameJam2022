@@ -141,7 +141,7 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
 
     static readonly List<Vector3> spawnpointCache = new List<Vector3>();
     bool isInteracting; // prevents interaction while f.e. an animation from a previous interaction is running.
-    public void OnInteractByUser()
+    public void OnInteractByUserLeft()
     {
         if (isInteracting || !CheckForGrowConditions())
         {
@@ -189,6 +189,12 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         seq.Play();
 
     }
+
+    public void OnInteractByUserRight()
+    {
+        OnTryKillByOtherPlant();
+    }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(transform.position, NeighbourhoodRadius);
