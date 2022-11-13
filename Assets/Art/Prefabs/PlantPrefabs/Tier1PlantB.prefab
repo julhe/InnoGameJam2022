@@ -187,7 +187,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 98f6d8dc83a48fd49a50a1a0feb740b7, type: 2}
+  - {fileID: 2100000, guid: 17b20adc852055c4eaf60e4de7f59722, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -379,8 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6656430a5efeaf243bc883ebda2adbd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ThisPlantType: 0
-  minAmountLikedPlants: 0
+  minAmountLikedPlants: 5
   ChildrenPrefab: {fileID: 5725899180508129117}
   PlantSpawnManager: {fileID: 5484689357980704829, guid: 09f51297db0b4cd489975afdaca974d4,
     type: 3}
@@ -388,6 +387,10 @@ MonoBehaviour:
   SpawnPointParrent: {fileID: 9013949570631967496}
   TreeVisual: {fileID: 4433751122510059792}
   SeedVisual: {fileID: 7975777283069553533}
+  LikedPlant: {fileID: 2548572129523812719, guid: c7b9bd8b73819e84191e5fd5da9892d4,
+    type: 3}
+  DislikedPlant: {fileID: 2548572129523812719, guid: 0efb4a219b831cc4588bf9a7917cc4a2,
+    type: 3}
 --- !u!1 &7975777283069553533
 GameObject:
   m_ObjectHideFlags: 0

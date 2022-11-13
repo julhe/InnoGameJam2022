@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlantSpawnManager : MonoBehaviour
 {
@@ -11,38 +13,43 @@ public class PlantSpawnManager : MonoBehaviour
     [SerializeField] List<GameObject> tier1Plants = new List<GameObject>();
     [SerializeField] List<GameObject> tier2Plants = new List<GameObject>();
 
-    List<List<GameObject>> tierList = new List<List<GameObject>>();
-
-    void Start()
+    private GameObject GetPlant(int tierIndex, int plantIndex)
     {
-        tierList.Add(tier0Plants);
-        tierList.Add(tier1Plants);
-        tierList.Add(tier2Plants);
+        switch(tierIndex) 
+        {
+            case 0:
+                return tier0Plants[plantIndex];
+            case 1:
+                return tier1Plants[plantIndex];
+            case 2:
+                return tier2Plants[plantIndex];
+            default:
+                throw new ArgumentException("Invalid Plant Tier");
+        }
     }
 
     public GameObject GetPlantToSpawn(GameObject parentPlant)
     {
-        int plantToSpawnTier = getPlantTier(parentPlant);
+        int plantToSpawnTier = GetPlantTier(parentPlant);
         int randomInt = Random.Range(0, 100);
         
         //spawn lower tier plant
         if(randomInt < lowerTierChance)
         {
             if(plantToSpawnTier > 0)
-            plantToSpawnTier --;
+                plantToSpawnTier --;
         }
 
         //Spawn higher tier plant
         else if(randomInt > lowerTierChance + sameTierChance)
         {
-            if(plantToSpawnTier < tierList.Count - 1)
-            plantToSpawnTier ++;
+            if(plantToSpawnTier < 2) //tierList.Count - 1
+                plantToSpawnTier ++;
         }
-
-        return tierList[plantToSpawnTier][Random.Range(0, tierList[plantToSpawnTier].Count - 1)];
+        return GetPlant(plantToSpawnTier, Random.Range(0, 2));
     }
 
-    int getPlantTier(GameObject plant)
+    int GetPlantTier(GameObject plant)
     {
         //implementieren: Gameobject einer Pflanze übergeben, die Listen in dieser Klasse durchsuchen und herausfinden in welcher Tier die übergebene Üflanze ist
         return 0;

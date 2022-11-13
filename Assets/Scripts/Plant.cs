@@ -33,8 +33,8 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
     [SerializeField] Transform SpawnPointParrent;
     [SerializeField] GameObject TreeVisual, SeedVisual;
     
-    GameObject LikedPlant;
-    GameObject DislikedPlant;
+    [SerializeField] GameObject LikedPlant;
+    [SerializeField] GameObject DislikedPlant;
 
 
     bool isInSeedState = true;
@@ -150,7 +150,7 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
             foreach (var destination in spawnpointCache)
             {
                 //PlantSpawnManager.GetPlantToSpawn(ChildrenPrefab)
-                var go = Instantiate(ChildrenPrefab, destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
+                var go = Instantiate(PlantSpawnManager.GetPlantToSpawn(ChildrenPrefab), destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
                 go.transform.localScale = Vector3.zero;
             
                 //TODO: make growing more cool by making it erratic -> quantize the scale?
