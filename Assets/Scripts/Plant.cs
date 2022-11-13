@@ -42,6 +42,7 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         
         TreeVisual.transform.localScale = Vector3.zero;
         SeedVisual.transform.localScale = Vector3.zero;
+        
         SeedVisual.transform.DOScale(Vector3.one, 0.5f);
 
 
@@ -173,7 +174,19 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
                         go.transform.localScale = Vector3.zero;
             
                         //TODO: make growing more cool by making it erratic -> quantize the scale?
-                        go.transform.DOScale(Vector3.one, Random.Range(0.1f, 0.5f));
+                        var spawnSeq = DOTween.Sequence();
+
+                        float growthDelay = Random.Range(0.05f, 0.3f);
+                        go.transform.DOScale(Vector3.one, growthDelay);
+
+                        spawnSeq.AppendInterval(growthDelay * 0.5f);
+                        spawnSeq.AppendCallback(() =>
+                        {
+                            var audioSource = go.GetComponent<AudioSource>();
+                            audioSource.pitch += Random.Range(-0.2f, 0.2f);
+                            audioSource.Play();
+                        });
+
                     }
 
             
