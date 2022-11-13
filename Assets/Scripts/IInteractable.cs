@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    public void OnInteractByUser();
+    public void OnInteractByUserLeft();
+    public void OnInteractByUserRight();
 }

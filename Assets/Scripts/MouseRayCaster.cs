@@ -7,7 +7,7 @@ public class MouseRayCaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
             Camera main = Camera.main;
             Debug.Assert(main);
@@ -20,14 +20,33 @@ public class MouseRayCaster : MonoBehaviour
                 RaycastHit hit = Shared.rayCastHitBuffer[hitIdx];
                 if (hit.transform.gameObject.TryGetComponent(out IInteractable interactable))
                 {
-                    interactable.OnInteractByUser();
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        
+                        interactable.OnInteractByUserRight();
+                    }
+                    else
+                    {
+                        
+                        interactable.OnInteractByUserLeft();
+                    }
                     break;
                 }
 
                 var interactableParent = hit.transform.gameObject.GetComponentInParent<IInteractable>();
                 if (interactableParent != null)
                 {
-                    interactableParent.OnInteractByUser();
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        
+                        interactableParent.OnInteractByUserRight();
+                    }
+                    else
+                    {
+                        
+                        interactableParent.OnInteractByUserLeft();
+                    }
+                    
                     break;
                 }
 
