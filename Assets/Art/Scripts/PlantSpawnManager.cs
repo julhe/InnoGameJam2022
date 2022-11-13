@@ -35,7 +35,7 @@ public class PlantSpawnManager : MonoBehaviour
         }
     }
 
-    public GameObject GetPlantToSpawn(GameObject parentPlant)
+    public GameObject GetPlantToSpawn(PlantType parentPlant)
     {
         int plantToSpawnTier = GetPlantTier(parentPlant);
         int randomInt = Random.Range(0, 100);
@@ -56,21 +56,21 @@ public class PlantSpawnManager : MonoBehaviour
         return GetPlant(plantToSpawnTier, Random.Range(0, 2));
     }
 
-    int GetPlantTier(GameObject plant)
+    int GetPlantTier(PlantType plant)
     {
         foreach (var tier0Plant in tier0Plants)
         {
-            if (plant == tier0Plant)
+            if (plant == tier0Plant.GetComponent<Plant>().SelfPlantType)
                 return 0;
         }
         foreach (var tier1Plant in tier1Plants)
         {
-            if (plant == tier1Plant)
+            if (plant == tier1Plant.GetComponent<Plant>().SelfPlantType)
                 return 1;
         }
         foreach (var tier2Plant in tier2Plants)
         {
-            if (plant == tier2Plant)
+            if (plant == tier2Plant.GetComponent<Plant>().SelfPlantType)
                 return 2;
         }
         throw new ArgumentException("Plant missing in the PlantSpawnManagers plants-list");

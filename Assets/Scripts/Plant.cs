@@ -18,17 +18,9 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         Seed,
         Tree,
     }
-    // public enum PlantType
-    // {
-    //     tier1A,
-    //     tier1B,
-    //     tier2A,
-    //     tier2B,
-    //     tier3A,
-    //     tier3B
-    // }
 
-    // public PlantType ThisPlantType;
+
+    public PlantType SelfPlantType;
     
     [SerializeField] int minAmountLikedPlants = 5;
 
@@ -141,7 +133,7 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
                 foreach (Vector3 destination in spawnpointCache)
                 {
                     //PlantSpawnManager.GetPlantToSpawn(ChildrenPrefab)
-                    var go = Instantiate(PlantSpawnManager.Instance.GetPlantToSpawn(ChildrenPrefab), destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
+                    var go = Instantiate(PlantSpawnManager.Instance.GetPlantToSpawn(SelfPlantType), destination, Quaternion.Euler(0,Random.Range(180f, -180f), 0f));
                     go.transform.localScale = Vector3.zero;
             
                     //TODO: make growing more cool by making it erratic -> quantize the scale?
@@ -171,4 +163,13 @@ public class Plant : MonoBehaviour, IInteractable, IPlant
         sequence.AppendCallback(() => { Destroy(gameObject); });
         sequence.Play();
     }
+}
+public enum PlantType
+{
+    tier0A,
+    tier0B,
+    tier1A,
+    tier1B,
+    tier2A,
+    tier2B
 }
