@@ -47,11 +47,11 @@ MonoBehaviour:
   lowerTierChance: 33
   sameTierChance: 33
   tier0Plants:
-  - {fileID: 2548572129523812719, guid: 0efb4a219b831cc4588bf9a7917cc4a2, type: 3}
-  - {fileID: 2548572129523812719, guid: c7b9bd8b73819e84191e5fd5da9892d4, type: 3}
+  - {fileID: 5099655723384001160, guid: e0f0aeb9d61c938439cd026531187fdb, type: 3}
+  - {fileID: 3959166213658807391, guid: e9fe1a72e19a4e047ae5f2b9ff476cf5, type: 3}
   tier1Plants:
-  - {fileID: 2548572129523812719, guid: 4258ee26070ac73409a5ee7e52d55f2d, type: 3}
-  - {fileID: 5725899180508129117, guid: 09824c0552cd1a844bda193143b9dc62, type: 3}
+  - {fileID: 7549686922097918797, guid: 465409e826970bf44bbd8ed9ba5f0dd8, type: 3}
+  - {fileID: 3729639888858021114, guid: 4d909738f16cd354a8d7410158402461, type: 3}
   tier2Plants:
-  - {fileID: 2548572129523812719, guid: b21235afbb1e4c647bbdaf1d26412c27, type: 3}
-  - {fileID: 5725899180508129117, guid: 05b7f17c97a6af343867d64cafa4f648, type: 3}
+  - {fileID: 9066083237986749213, guid: 308d6445e72d5de4685792ba1d4f4d51, type: 3}
+  - {fileID: 9066083237986749213, guid: 308d6445e72d5de4685792ba1d4f4d51, type: 3}
