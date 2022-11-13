@@ -123,7 +123,7 @@ PrefabInstance:
         type: 3}
       propertyPath: TreeVisual
       value: 
-      objectReference: {fileID: 6641235239932929080}
+      objectReference: {fileID: 5465776621634539670}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0efb4a219b831cc4588bf9a7917cc4a2, type: 3}
 --- !u!4 &1611020511367425308 stripped
@@ -341,9 +341,3 @@ CapsuleCollider:
   m_Height: 1.43
   m_Direction: 1
   m_Center: {x: 0, y: 0.54, z: 0}
---- !u!1 &6641235239932929080 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1936936439383999547, guid: 9acd6d56bad7d8c4cbbbe97c0c2f37b4,
-    type: 3}
-  m_PrefabInstance: {fileID: 5101181098113392643}
-  m_PrefabAsset: {fileID: 0}
