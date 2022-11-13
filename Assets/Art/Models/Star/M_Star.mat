@@ -162,7 +162,7 @@ Material:
     - _blendingThickness: 0.15
     - _emissionPower: 1
     - _fresnelStep: 4
-    - _windInfluence: 0.05
+    - _windInfluence: 0.02
     - _windInfluenceMinor: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
