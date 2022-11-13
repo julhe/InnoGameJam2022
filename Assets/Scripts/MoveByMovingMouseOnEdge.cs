@@ -7,7 +7,7 @@ public class MoveByMovingMouseOnEdge : MonoBehaviour
 {
     [SerializeField, Range(0.0f, 1.0f)] float DistanceToEdge = 0.1f;
 
-    [SerializeField] float Speed;
+    [SerializeField] float Speed, MaxRadius;
     // Update is called once per frame
     void Update()
     {
@@ -35,6 +35,13 @@ public class MoveByMovingMouseOnEdge : MonoBehaviour
             Vector3 scrollVecWorldSpace = new Vector3(mouseScrollDir.x, 0.0f, mouseScrollDir.y) * Speed * speedWeight * Time.deltaTime;
             transform.position += scrollVecWorldSpace;
         }
+        
+        //clamp max range from origin
+        transform.position = Vector3.ClampMagnitude(transform.position, MaxRadius);
     }
-    
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(Vector3.zero, MaxRadius);
+    }
 }
